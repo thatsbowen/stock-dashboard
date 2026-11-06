@@ -31,12 +31,14 @@
 页面自上而下：顶部工具条（同步状态 + 导入 CSV + 行情设置 + 建议 + 刷新现价；标题带版本标签）→ 横幅提示区 → 账户切换条 → 3 卡大盘指数（上证指数 / 深证成指 / 创业板指，含涨跌幅与昨收）→ 4 卡 KPI（持仓市值 / 持仓盈亏 / 投入成本 / 今日盈亏）→ 持仓面板（占比堆叠条 + 图例 + 明细表 + 合计行）。
 
 - 容器最大宽 1180px，圆角 16px，卡片阴影 `0 1px 2px rgba(16,24,40,.06), 0 8px 24px -12px rgba(16,24,40,.18)`。
-- 明细表按市值降序；列右对齐（股票、代码两列左对齐）；数字使用 `font-variant-numeric: tabular-nums`。
+- 明细表按市值降序；列右对齐（股票、代码两列左对齐）；数字使用 `font-variant-numeric: tabular-nums`；末列为「操作」（编辑 / 删除按钮）。
 - 占比条与图例共用调色板 `PALETTE`（8 色循环）。
 
 ## 交互约定
 
 - 「刷新现价」= 全部刷新；点表格内某行「现价」= 只刷这一只。
+- 表格每行有「编辑」「删除」：编辑复用添加弹窗（名称、代码、成本价、数量、账户可改，现价与更新时间保持不变），删除弹 confirm 后移除该条。
 - 行情取不到时打开「更新现价」手动弹窗兜底，不允许功能卡死。
-- 数据全部存 localStorage（键：`stockboard_standalone_v1`，设置：`stockboard_settings_v1`），导入 CSV 为整体替换。
-- URL 参数（用于演示/截图）：`?acc=账户B` 直达账户视图；`?view=donate` / `?view=settings` 直开弹窗。
+- 数据全部存 localStorage（键：`stockboard_standalone_v1`，设置：`stockboard_settings_v1`），导入 CSV 为整体替换；localStorage 中为 `[]` 时保留空态，不回退演示数据。
+- 内置演示行的 `record_id` 形如 `d1…d6`；用户新增或导入真实持仓时自动剔除演示行（新增是「清空演示 + 追加」，导入是「整体替换」）。
+- URL 参数（用于演示/截图）：`?acc=账户B` 直达账户视图；`?view=settings` / `?view=add` / `?view=edit` / `?view=news` / `?view=tip` 直开对应弹窗或页签。
