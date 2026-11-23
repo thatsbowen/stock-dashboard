@@ -1,9 +1,9 @@
 ---
-name: "stock-dashboard"
-display_name: "我的股票持仓看板"
-display_name_en: "My Stock Portfolio Dashboard"
-description: "为用户搭建个人 A 股持仓数据看板（双页）：持仓看板页含大盘指数（上证指数、深证成指、创业板指）+ 持仓市值、持仓盈亏、收益率、今日盈亏，支持多账户切换、持仓占比分布、逐条添加持仓（添加后自动清除演示数据）、逐只编辑成本/数量/账户、删除单只、CSV 导入、单只/全部刷新现价、行情失败手动兜底、建议反馈入口；持仓新闻页自动抓取所持股票的公告、大事件与新闻引用（东方财富公开接口），按时间倒序、默认近 3 个月，点击直达原文。另内置微信收款码打赏（¥5.25，添加至少 1 只持仓后弹出，每月最多提醒一次，可关闭，不影响功能）。数据仅保存在用户本机。当用户提到股票看板、持仓看板、持仓收益、盈亏统计、A股看板、炒股记账、持仓新闻等需求时使用本技能。"
-description_zh: "一分钟搭好个人 A 股持仓数据看板：三大指数 + 市值、盈亏、收益率一目了然，数据仅存本机。"
+name: "stock-dashboard-pro"
+display_name: "我的股票持仓看板Pro"
+display_name_en: "My Stock Portfolio Dashboard Pro"
+description: "为用户搭建个人 A 股持仓数据看板（三页：我的关注/持仓看板/持仓新闻）：持仓看板页含大盘指数（上证指数、深证成指、创业板指）+ 持仓市值、持仓盈亏、收益率、今日盈亏，「我的关注」页支持关注列表（持仓自动纳入、CSV 单列导入带模板、最新价/开盘/昨收/涨跌幅/涨跌/最高/最低/涨速/换手/金额/总量/现量/市盈率全列展示、一键移除非持仓股）与 AI 分析报告（核心结论/五维评分/趋势/风险警报/催化因素/操作检查清单，仅整理公开数据不构成建议，可选接入 OpenAI 兼容大模型）。支持多账户切换、持仓占比分布、逐条添加持仓（添加后自动清除演示数据）、逐只编辑成本/数量/账户、删除单只、CSV 导入、单只/全部刷新现价、行情失败手动兜底、建议反馈入口；持仓新闻页自动抓取所持股票的公告、大事件与新闻引用（东方财富公开接口），按时间倒序、默认近 3 个月，点击直达原文。另内置微信收款码打赏（¥5.25，添加至少 1 只持仓后弹出，每月最多提醒一次，可关闭，不影响功能）。数据仅保存在用户本机。当用户提到股票看板、持仓看板、持仓收益、盈亏统计、A股看板、炒股记账、持仓新闻等需求时使用本技能。"
+description_zh: "一分钟搭好个人 A 股持仓数据看板：我的关注（自选股 + AI 分析）、三大指数 + 市值、盈亏、收益率一目了然，数据仅存本机。"
 description_en: "Build a personal A-share holdings dashboard in one minute, showing major indexes plus market value, P/L and return rate at a glance, with local-only data."
 examples_zh:
   - "帮我做一个股票持仓看板，我有两个账户"
@@ -13,11 +13,11 @@ examples_en:
   - "Build me a stock portfolio dashboard with two accounts"
   - "Import my holdings CSV and show my P/L"
   - "Add major indexes and a feedback entry to the dashboard"
-version: "1.1.6"
+version: "1.2.3"
 author: "WorkBuddy 用户自研"
 ---
 
-# 我的股票持仓看板（My Stock Portfolio Dashboard）
+# 我的股票持仓看板Pro（My Stock Portfolio Dashboard Pro）
 
 为用户搭建一个单文件、免部署的个人 A 股持仓看板，含两个页面（顶部页签切换）：
 
@@ -46,7 +46,7 @@ author: "WorkBuddy 用户自研"
    - 用户已有持仓 CSV → 按 `references/csv-schema.md` 校验列名，指导用户打开看板后点「导入持仓 CSV」；
    - 用户在 WorkBuddy 资料库有持仓数据表 → 指导用户从数据表导出 CSV 后导入；
    - 用户无数据 → 直接使用模板内置演示数据，先看效果再补数据。
-2. **交付看板**：把 `templates/stock-dashboard.html` 复制到用户工作目录（文件名建议「我的股票持仓看板.html」），告知用户双击即可在浏览器打开，数据保存在本机浏览器 localStorage，不上传、仅自己可见。用户可点「添加持仓」逐只录入（第一只真实持仓保存时，内置演示数据自动清除），或导入 CSV（整体替换，演示数据一并清掉）；表格每行右侧可「编辑」成本价/数量/账户，或「删除」该只。
+2. **交付看板**：把 `templates/stock-dashboard.html` 复制到用户工作目录（文件名建议「我的股票持仓看板Pro.html」），告知用户双击即可在浏览器打开，数据保存在本机浏览器 localStorage，不上传、仅自己可见。用户可点「添加持仓」逐只录入（第一只真实持仓保存时，内置演示数据自动清除），或导入 CSV（整体替换，演示数据一并清掉）；表格每行右侧可「编辑」成本价/数量/账户，或「删除」该只。
 3. **引导选择行情数据源**（安装后首次打开看板会自动弹出「行情设置」，见 `references/api-setup.md`）：
    - 弹窗内置 3 个数据源：**腾讯财经**（默认，免费公开接口，免注册、无需 Key）、**东方财富**（免费公开接口，可作备用）、**自有 API / 自建服务**（需填接口地址和用户自己的 Key）；用户也可先点「稍后设置」看演示数据；
    - 前两个源开箱即用、零配置；引导重点放在让用户知道数据来自公开接口、Key 永远只在用户自己手里（自有 API 场景）；
